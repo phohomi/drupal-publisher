@@ -26,7 +26,16 @@ public class ArticleEnricher implements AggregationStrategy {
 		originalBody.zakgewicht = ((Double)responseMap.get("zakgewicht"));
 		originalBody.gtin = ((String)responseMap.get("gtin"));
 		originalBody.palLayout = ((String)responseMap.get("pallayout"));
-		originalBody.timestamp = ((Integer)responseMap.get("changed"));
+		originalBody.timestamp = ((Integer)responseMap.get("timestamp"));
+		originalBody.lijn1 = ((String)responseMap.get("lijn1"));
+		originalBody.lijn2 = ((String)responseMap.get("lijn2"));
+		originalBody.lijn3 = ((String)responseMap.get("lijn3"));
+		originalBody.lijn4 = ((String)responseMap.get("lijn4"));
+		originalBody.lijn5 = ((String)responseMap.get("lijn5"));
+		originalBody.lijn6 = ((String)responseMap.get("lijn6"));
+		originalBody.lijn7 = ((String)responseMap.get("lijn7"));
+		originalBody.layout = ((String)responseMap.get("layout"));
+		originalBody.artikelnoklant = ((String)responseMap.get("artikelnoklant"));
 		
 		/* #	
 		 * code		56004065
