@@ -20,6 +20,7 @@ public class LabelEnricher implements AggregationStrategy {
 		Map<String, Object> responseMap = response.get(0);
 		
 		originalBody.filename = ((String)responseMap.get("filename"));
+		originalBody.mail = ((String)responseMap.get("mail"));
 		
 		/* #	
 		 * filename		STELOI.ciff */

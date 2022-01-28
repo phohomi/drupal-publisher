@@ -60,10 +60,13 @@ public class Routes extends RouteBuilder {
 			+ "  left join node__field_category nfc on nfd.nid = nfc.entity_id and nfd.langcode = nfc.langcode"
 			+ " WHERE nfd.nid = :#${body.id} and nfd.default_langcode = 1;";
 
-	String labelQuery = "select fm.filename"
+	String labelQuery = "select fm.filename, coalesce(ufd1.mail, ufd2.mail) as mail"
 			+ " from node_field_data nfd"
 			+ "  join node__field_file nff on nfd.nid = nff.entity_id and nfd.langcode = nff.langcode"
 			+ "  join file_managed fm on nff.field_file_target_id = fm.fid"
+			+ "  left join node_revision nrv on nfd.vid = nrv.vid and nfd.langcode = nrv.langcode"
+			+ "  left join users_field_data ufd1 on nrv.revision_uid = ufd1.uid"
+			+ "  join users_field_data ufd2 on nfd.uid = ufd2.uid"
 			+ " where nfd.nid = :#${body.id} and nfd.default_langcode = 1;";
 	
 	@Override

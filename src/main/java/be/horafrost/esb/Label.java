@@ -13,6 +13,8 @@ public class Label {
 	public Short status;
 	@JsonProperty("filename")
 	public String filename;
+	@JsonProperty("mail")
+	public String mail;
 
 	public Label(Struct body) {
 		this.id = body.getInt64("nid");
