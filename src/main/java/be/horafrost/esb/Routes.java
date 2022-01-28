@@ -80,16 +80,17 @@ public class Routes extends RouteBuilder {
                 + "&databaseHistoryFileFilename={{debezium.mysql.databaseHistoryFileName}}"
                 + "&databaseIncludeList={{debezium.mysql.databaseIncludeList}}"
                 + "&tableIncludeList={{debezium.mysql.tableIncludeList}}"
-                + "&offsetStorageFileName={{debezium.mysql.offsetStorageFileName}}")
+                + "&offsetStorageFileName={{debezium.mysql.offsetStorageFileName}}"
+                + "&snapshotMode=never")
                 .routeId("FromDebeziumMySql")
-        .log("Event received from Debezium : ${body}")
+        /*.log("Event received from Debezium : ${body}")
 	    .log("    with this identifier ${headers.CamelDebeziumIdentifier}")
 	    .log("    with these source metadata ${headers.CamelDebeziumSourceMetadata}")
 	    .log("    the event occured upon this operation '${headers.CamelDebeziumSourceOperation}'")
 	    .log("    on this database '${headers.CamelDebeziumSourceMetadata[db]}' and this table '${headers.CamelDebeziumSourceMetadata[table]}'")
 	    .log("    with the key ${headers.CamelDebeziumKey}")
 	    .log("    the previous value is ${headers.CamelDebeziumBefore}")
-	    .log("    the ddl sql text is ${headers.CamelDebeziumDdlSQL}")
+	    .log("    the ddl sql text is ${headers.CamelDebeziumDdlSQL}")*/
         .choice()
         	.when(simple("${headers.CamelDebeziumSourceMetadata[db]} == 'drupal' && ${headers.CamelDebeziumSourceMetadata[table]} == 'node_field_data'"))
             	.to("direct:node_dispatcher").endChoice();
@@ -125,7 +126,7 @@ public class Routes extends RouteBuilder {
 		
 		
 		from("direct:label").routeId("inspectLabel")
-		.errorHandler(deadLetterChannel("file:labelErrors").useOriginalMessage().maximumRedeliveries(5).redeliveryDelay(3000).useExponentialBackOff())
+		.errorHandler(deadLetterChannel("file:labelErrors").useOriginalMessage().maximumRedeliveries(5).redeliveryDelay(3000L).useExponentialBackOff())
 		.onException(HttpOperationFailedException.class).maximumRedeliveries(0).end()
 		.process(new Processor() {
 			@Override
@@ -148,7 +149,7 @@ public class Routes extends RouteBuilder {
 		
 		
 		from("direct:article").routeId("createMessage")
-		.errorHandler(deadLetterChannel("file:articleErrors").useOriginalMessage().maximumRedeliveries(5).redeliveryDelay(3000).useExponentialBackOff())
+		.errorHandler(deadLetterChannel("file:articleErrors").useOriginalMessage().maximumRedeliveries(5).redeliveryDelay(3000L).useExponentialBackOff())
 		.onException(HttpOperationFailedException.class).maximumRedeliveries(0).end()
 		.process(new Processor() {
 			@Override
