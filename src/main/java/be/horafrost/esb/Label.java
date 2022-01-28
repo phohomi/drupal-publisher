@@ -21,4 +21,12 @@ public class Label {
 		this.title = body.getString("title");
 		this.status = body.getInt16("status");
 	}
+	
+	public Long getId() {
+		return this.id;
+	}
+	
+	public Short getStatus() {
+		return this.status;
+	}
 }
