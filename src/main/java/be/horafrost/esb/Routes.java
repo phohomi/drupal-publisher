@@ -81,7 +81,8 @@ public class Routes extends RouteBuilder {
                 + "&databaseIncludeList={{debezium.mysql.databaseIncludeList}}"
                 + "&tableIncludeList={{debezium.mysql.tableIncludeList}}"
                 + "&offsetStorageFileName={{debezium.mysql.offsetStorageFileName}}"
-                + "&snapshotMode=never")
+                + "&snapshotMode=never"
+                + "&maxBatchSize=205")
                 .routeId("FromDebeziumMySql")
         /*.log("Event received from Debezium : ${body}")
 	    .log("    with this identifier ${headers.CamelDebeziumIdentifier}")
@@ -172,11 +173,11 @@ public class Routes extends RouteBuilder {
 		.to("http:{{node.server}}:1880");
 		
 		
-		from("file:articleErrors?delay=600000").routeId("retryErrors") //retry every ten minutes 
+		from("file:articleErrors?delay=600000").routeId("retryArticleErrors") //retry every ten minutes 
 		.to("direct:sendArticle");
 		
 		
-		from("file:articleErrors?delay=3600000&noop=true&idempotent=false").routeId("mailErrors") //every hour
+		from("file:articleErrors?delay=3600000&noop=true&idempotent=false").routeId("mailArticleErrors") //every hour
 		.process(new Processor() {
 			@Override
 			public void process(Exchange exchange) throws Exception{

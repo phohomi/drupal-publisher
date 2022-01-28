@@ -19,7 +19,7 @@ public class ArticleEnricher implements AggregationStrategy {
 		
 		Map<String, Object> responseMap = response.get(0);
 		
-		if((Integer)responseMap.get("category") != 29) 
+		if((Long)responseMap.get("category") != 29) 
 			return oldExchange;
 		
 		originalBody.code = ((String)responseMap.get("code"));
