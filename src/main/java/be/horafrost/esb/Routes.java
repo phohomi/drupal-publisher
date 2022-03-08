@@ -1,6 +1,7 @@
 package be.horafrost.esb;
 
 import javax.activation.DataHandler;
+import javax.enterprise.context.ApplicationScoped;
 
 import org.apache.camel.Body;
 import org.apache.camel.Exchange;
@@ -17,6 +18,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
+
+@ApplicationScoped
 public class Routes extends RouteBuilder {
 	
 	String articleQuery = "SELECT"
@@ -81,7 +84,7 @@ public class Routes extends RouteBuilder {
                 + "&databaseIncludeList={{debezium.mysql.databaseIncludeList}}"
                 + "&tableIncludeList={{debezium.mysql.tableIncludeList}}"
                 + "&offsetStorageFileName={{debezium.mysql.offsetStorageFileName}}"
-                + "&snapshotMode=never"
+                + "&snapshotMode=schema_only"
                 + "&maxBatchSize=205")
                 .routeId("FromDebeziumMySql")
         /*.log("Event received from Debezium : ${body}")
